@@ -10,7 +10,7 @@ from math import pow, atan2, sqrt
 class ninja_turtle:
   def __init__(self):
     # Print test
-    print('working???')
+    print('Ninja turtle class is working')
     # Creates a node 
     rospy.init_node('ninjaturtle_controller', anonymous=True)
     # Publisher for the topic '/turtle1/cmd_vel'
@@ -47,39 +47,41 @@ class ninja_turtle:
   # Move the turtle to the goal point
   def move2goal(self):
     # move2goal print test
-    print('print test')
+    print('Move to goal function is working')
 
-    goal_pose = Pose()
+    while True:
+      goal_pose = Pose()
 
-    # Get the input from the user.
-    goal_pose.x = input("Set your x goal: ")
-    goal_pose.y = input("Set your y goal: ")
+      # Get the input from the user.
+      goal_pose.x = input("X position: ")
+      goal_pose.y = input("Y position: ")
+      print('----------')
 
-    # Please, insert a number slightly greater than 0 (e.g. 0.01).
-    distance_error = 0.1
-    vel_msg = Twist()
+      # Please, insert a number slightly greater than 0 (e.g. 0.01).
+      distance_error = 0.1
+      vel_msg = Twist()
 
-    # Main loop move2goal function
-    while self.euclidean_distance(goal_pose) >= distance_error:
-      vel_msg.linear.x = self.linear_vel(goal_pose)
-      vel_msg.linear.y = 0
-      vel_msg.linear.z = 0
+      # Main loop move2goal function
+      while self.euclidean_distance(goal_pose) >= distance_error:
+        vel_msg.linear.x = self.linear_vel(goal_pose)
+        vel_msg.linear.y = 0
+        vel_msg.linear.z = 0
 
-      # Angular velocity in the z-axis.
-      vel_msg.angular.x = 0
-      vel_msg.angular.y = 0
-      vel_msg.angular.z = self.angular_vel(goal_pose)
+        # Angular velocity in the z-axis.
+        vel_msg.angular.x = 0
+        vel_msg.angular.y = 0
+        vel_msg.angular.z = self.angular_vel(goal_pose)
 
-      # Publishing our vel_msg
+        # Publishing our vel_msg
+        self.velocity_publisher.publish(vel_msg)
+
+        # Publish at the desired rate.
+        self.rate.sleep()
+
+      # Stopping our robot after the movement is over.
+      vel_msg.linear.x = 0
+      vel_msg.angular.z = 0
       self.velocity_publisher.publish(vel_msg)
-
-      # Publish at the desired rate.
-      self.rate.sleep()
-
-    # Stopping our robot after the movement is over.
-    vel_msg.linear.x = 0
-    vel_msg.angular.z = 0
-    self.velocity_publisher.publish(vel_msg)
 
     # If we press control + C, the node will stop.
     rospy.spin()
