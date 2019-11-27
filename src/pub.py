@@ -9,6 +9,8 @@ from math import pow, atan2, sqrt
 # This class contain all the aspects of robot, like a nodes and metods
 class ninja_turtle:
   def __init__(self):
+    # Print test
+    print('working???')
     # Creates a node 
     rospy.init_node('ninjaturtle_controller', anonymous=True)
     # Publisher for the topic '/turtle1/cmd_vel'
@@ -44,6 +46,9 @@ class ninja_turtle:
 
   # Move the turtle to the goal point
   def move2goal(self):
+    # move2goal print test
+    print('print test')
+
     goal_pose = Pose()
 
     # Get the input from the user.
@@ -83,7 +88,7 @@ class ninja_turtle:
 if __name__ == "__main__":
   try:
     leonardo = ninja_turtle()
-    leonardo.move2goal
+    leonardo.move2goal()
   except rospy.ROSInterruptException:
     pass  
 
