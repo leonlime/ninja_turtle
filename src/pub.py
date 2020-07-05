@@ -1,4 +1,4 @@
-#!/usr/bin/env python
+#!/usr/bin/env python3
 
 # libs:
 import rospy
@@ -9,7 +9,7 @@ from math import pow, atan2, sqrt
 # This class contain all the aspects of robot, like a nodes and metods
 class NinjaTurtle:
   def __init__(self):
-    # Print test
+    # Print test 
     print('Ninja turtle class is working')
     # Creates a node 
     rospy.init_node('ninjaturtle_controller', anonymous=True)
@@ -30,7 +30,8 @@ class NinjaTurtle:
 
   # Euclidean distance between current pose and the goal pose
   def euclideanDistance(self, goal_pose):
-    return sqrt(pow((goal_pose.x - self.pose.x), 2) + pow((goal_pose.y - self.pose.y), 2))
+    calc_euclid = sqrt(pow((float(goal_pose.x) - self.pose.x), 2) + pow((float(goal_pose.y) - self.pose.y), 2))
+    return calc_euclid
   
   # Set the linear vel
   def linearVel(self, goal_pose, constant=1.5):
@@ -38,7 +39,7 @@ class NinjaTurtle:
 
   # Set the angle
   def steeringAngle(self, goal_pose):
-    return atan2(goal_pose.y - self.pose.y, goal_pose.x - self.pose.x)
+    return atan2(float(goal_pose.y) - self.pose.y, float(goal_pose.x) - self.pose.x)
 
   # Set the angular vel
   def angularVel(self, goal_pose, constant=6):
@@ -93,6 +94,3 @@ if __name__ == "__main__":
     leonardo.move2Goal()
   except rospy.ROSInterruptException:
     pass  
-
-
-
